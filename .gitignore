@@ -143,3 +143,5 @@ dmypy.json
 *_test.py
 dev.sh
 app/files_tmp/
+
+*_code.txt
