@@ -145,3 +145,6 @@ dev.sh
 app/files_tmp/
 
 *_code.txt
+
+versions/
+migrations_versions/

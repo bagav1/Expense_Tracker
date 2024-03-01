@@ -1,25 +1,4 @@
-import pytest
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 from app.models.models import User, Account
-
-
-@pytest.fixture(scope="module")
-def session():
-    engine = create_engine(
-        "sqlite:///:memory:",
-        pool_recycle=300,
-        pool_pre_ping=True,
-    )
-    Session = sessionmaker(bind=engine)
-    User.metadata.create_all(engine)
-    Account.metadata.create_all(engine)
-    db = Session()
-    try:
-        yield db
-    finally:
-        db.rollback()
-        db.close()
 
 
 class TestDBAccount:
