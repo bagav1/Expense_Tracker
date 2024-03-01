@@ -22,9 +22,7 @@ async def create_user(user: UserBase, db: AsyncSession = Depends(get_db)):
     hashed_password = pwd_context.hash(user.password)
     try:
         user = await UserModel.create(
-            db,
-            **{"name": user.name, "email": user.email, "password": hashed_password}
-            # name=user.name, email=user.email, password=hashed_password
+            db, **{"name": user.name, "email": user.email, "password": hashed_password}
         )
         return user
     except IntegrityError:

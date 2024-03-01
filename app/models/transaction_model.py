@@ -30,11 +30,11 @@ class Transaction(BaseClass):
     date: Mapped[datetime.datetime] = mapped_column(
         DateTime(timezone=True), nullable=False
     )
-    description: Mapped[str] = mapped_column(String(255))
+    description: Mapped[str] = mapped_column(String(255), nullable=False)
     amount: Mapped[Numeric] = mapped_column(NUMERIC(10, 2), nullable=False)
     transaction_type: Mapped[str] = mapped_column(String(10), nullable=False)
-    payment_method: Mapped[str] = mapped_column(String(50))
-    notes: Mapped[str] = mapped_column(String(255))
+    payment_method: Mapped[str] = mapped_column(String(50), nullable=False)
+    notes: Mapped[str] = mapped_column(String(255), nullable=True)
 
     user = relationship("User")
     account = relationship("Account")

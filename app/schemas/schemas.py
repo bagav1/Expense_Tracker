@@ -12,7 +12,7 @@ class UserBase(BaseModel):
 class User(UserBase):
     user_id: str = Field(title="User ID")
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 
@@ -27,7 +27,7 @@ class Account(AccountBase):
     account_id: str = Field(title="Account ID")
     user_id: str = Field(title="User Account")
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 
@@ -41,7 +41,7 @@ class Category(CategoryBase):
     category_id: str = Field(title="Category ID")
     user_id: str = Field(title="User Category")
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 
@@ -60,5 +60,5 @@ class Transaction(TransactionBase):
     transaction_id: str = Field(title="Transaction ID")
     user_id: str = Field(title="User Transaction")
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
