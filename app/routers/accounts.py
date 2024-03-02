@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.schemas.schemas import AccountBase, Account
+from app.schemas.schemas import AccountBase, AccountResponse, AccountUpdate
 from app.models.models import Account as AccountModel
 from app.dependencies import get_current_user
 from app.services.database import get_db
@@ -12,7 +12,7 @@ router = APIRouter(
 )
 
 
-@router.post("/", response_model=Account)
+@router.post("/", response_model=AccountResponse)
 async def create_account(
     account: AccountBase,
     db: AsyncSession = Depends(get_db),
@@ -24,7 +24,7 @@ async def create_account(
     return db_account
 
 
-@router.get("/", response_model=list[Account])
+@router.get("/", response_model=list[AccountResponse])
 async def read_accounts(
     skip: int = 0,
     limit: int = 10,
@@ -37,7 +37,7 @@ async def read_accounts(
     return accounts
 
 
-@router.get("/{account_id}", response_model=Account)
+@router.get("/{account_id}", response_model=AccountResponse)
 async def read_account(
     account_id: str,
     db: AsyncSession = Depends(get_db),
@@ -51,10 +51,10 @@ async def read_account(
     return account
 
 
-@router.put("/{account_id}", response_model=Account)
+@router.put("/{account_id}", response_model=AccountResponse)
 async def update_account(
     account_id: str,
-    account: AccountBase,
+    account: AccountUpdate,
     db: AsyncSession = Depends(get_db),
     current_user_id: str = Depends(get_current_user),
 ):
@@ -68,7 +68,7 @@ async def update_account(
     return updated_account
 
 
-@router.delete("/{account_id}", response_model=Account)
+@router.delete("/{account_id}", response_model=AccountResponse)
 async def delete_account(
     account_id: str,
     db: AsyncSession = Depends(get_db),

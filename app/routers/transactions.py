@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.schemas.schemas import TransactionBase, Transaction
+from app.schemas.schemas import TransactionBase, TransactionResponse, TransactionUpdate
 from app.models.models import Transaction as TransactionModel
 from app.dependencies import get_current_user
 from app.services.database import get_db
@@ -13,7 +13,7 @@ router = APIRouter(
 )
 
 
-@router.post("/", response_model=Transaction)
+@router.post("/", response_model=TransactionResponse)
 async def create_transaction(
     transaction: TransactionBase,
     db: AsyncSession = Depends(get_db),
@@ -25,7 +25,7 @@ async def create_transaction(
     return db_transaction
 
 
-@router.get("/", response_model=list[Transaction])
+@router.get("/", response_model=list[TransactionResponse])
 async def read_transactions(
     skip: int = 0,
     limit: int = 10,
@@ -38,7 +38,7 @@ async def read_transactions(
     return transactions
 
 
-@router.get("/{transaction_id}", response_model=Transaction)
+@router.get("/{transaction_id}", response_model=TransactionResponse)
 async def read_transaction(
     transaction_id: str,
     db: AsyncSession = Depends(get_db),
@@ -54,10 +54,10 @@ async def read_transaction(
     return transaction
 
 
-@router.put("/{transaction_id}", response_model=Transaction)
+@router.put("/{transaction_id}", response_model=TransactionResponse)
 async def update_transaction(
     transaction_id: str,
-    transaction: TransactionBase,
+    transaction: TransactionUpdate,
     db: AsyncSession = Depends(get_db),
     current_user_id: str = Depends(get_current_user),
 ):
@@ -73,7 +73,7 @@ async def update_transaction(
     return updated_transaction
 
 
-@router.delete("/{transaction_id}", response_model=Transaction)
+@router.delete("/{transaction_id}", response_model=TransactionResponse)
 async def delete_transaction(
     transaction_id: str,
     db: AsyncSession = Depends(get_db),
