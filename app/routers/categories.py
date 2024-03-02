@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.schemas.schemas import CategoryBase, Category
+from app.schemas.schemas import CategoryBase, CategoryResponse, CategoryUpdate
 from app.models.models import Category as CategoryModel
 from app.dependencies import get_current_user
 from app.services.database import get_db
@@ -12,7 +12,7 @@ router = APIRouter(
 )
 
 
-@router.post("/", response_model=Category)
+@router.post("/", response_model=CategoryResponse)
 async def create_category(
     category: CategoryBase,
     db: AsyncSession = Depends(get_db),
@@ -24,7 +24,7 @@ async def create_category(
     return db_category
 
 
-@router.get("/", response_model=list[Category])
+@router.get("/", response_model=list[CategoryResponse])
 async def read_categories(
     skip: int = 0,
     limit: int = 10,
@@ -37,7 +37,7 @@ async def read_categories(
     return categories
 
 
-@router.get("/{category_id}", response_model=Category)
+@router.get("/{category_id}", response_model=CategoryResponse)
 async def read_category(
     category_id: str,
     db: AsyncSession = Depends(get_db),
@@ -53,10 +53,10 @@ async def read_category(
     return category
 
 
-@router.put("/{category_id}", response_model=Category)
+@router.put("/{category_id}", response_model=CategoryResponse)
 async def update_category(
     category_id: str,
-    category: CategoryBase,
+    category: CategoryUpdate,
     db: AsyncSession = Depends(get_db),
     current_user_id: str = Depends(get_current_user),
 ):
@@ -70,7 +70,7 @@ async def update_category(
     return updated_category
 
 
-@router.delete("/{category_id}", response_model=Category)
+@router.delete("/{category_id}", response_model=CategoryResponse)
 async def delete_category(
     category_id: str,
     db: AsyncSession = Depends(get_db),

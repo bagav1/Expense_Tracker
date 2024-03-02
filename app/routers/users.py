@@ -5,7 +5,7 @@ from passlib.context import CryptContext
 
 from app.dependencies import get_current_user
 from app.services.database import get_db
-from app.schemas.schemas import UserBase, User
+from app.schemas.schemas import UserBase, UserResponse, UserUpdate
 from app.models.models import User as UserModel
 
 router = APIRouter(
@@ -17,7 +17,7 @@ router = APIRouter(
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
-@router.post("/", response_model=User, dependencies=[])
+@router.post("/", response_model=UserResponse, dependencies=[])
 async def create_user(user: UserBase, db: AsyncSession = Depends(get_db)):
     hashed_password = pwd_context.hash(user.password)
     try:
@@ -32,7 +32,7 @@ async def create_user(user: UserBase, db: AsyncSession = Depends(get_db)):
         )
 
 
-@router.get("/", response_model=list[User])
+@router.get("/", response_model=list[UserResponse])
 async def read_users(
     skip: int = 0,
     limit: int = 10,
@@ -48,7 +48,7 @@ async def read_users(
     return users_without_password
 
 
-@router.get("/{user_id}", response_model=User)
+@router.get("/{user_id}", response_model=UserResponse)
 async def read_user(
     user_id: str,
     db: AsyncSession = Depends(get_db),
@@ -69,10 +69,10 @@ async def read_user(
     return user_dict
 
 
-@router.put("/{user_id}", response_model=User)
+@router.put("/{user_id}", response_model=UserResponse)
 async def update_user(
     user_id: str,
-    user: UserBase,
+    user: UserUpdate,
     db: AsyncSession = Depends(get_db),
     current_user_id: str = Depends(get_current_user),
 ):
@@ -91,7 +91,7 @@ async def update_user(
     return user_dict
 
 
-@router.delete("/{user_id}", response_model=User)
+@router.delete("/{user_id}", response_model=UserResponse)
 async def delete_user(
     user_id: str,
     db: AsyncSession = Depends(get_db),

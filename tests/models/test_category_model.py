@@ -32,7 +32,6 @@ class TestDBCategory:
             amount=50,
             transaction_type="expense",
             description="Test Transaction",
-            payment_method="cash",
         )
 
         session.add_all([food, transport, transaction])
@@ -56,7 +55,6 @@ class TestDBCategory:
             amount=50,
             transaction_type="expense",
             description="Test Transaction",
-            payment_method="cash",
         )
 
         session.add_all([category, transaction])
