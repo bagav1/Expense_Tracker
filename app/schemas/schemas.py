@@ -72,11 +72,6 @@ class TransactionBase(BaseModel):
     transaction_type: str = Field(
         ..., title="Transaction Type", examples=["income", "expense"]
     )
-    payment_method: str = Field(
-        ...,
-        title="Payment Method",
-        examples=["Efectivo", "Tarjeta de crédito", "Transferencia"],
-    )
     notes: Optional[str] = Field(None, title="Transaction Notes")
 
 
@@ -94,5 +89,4 @@ class TransactionUpdate(BaseModel):
     date: str | datetime = Field(title="Transaction Date")
     description: str = Field(title="Transaction Description")
     transaction_type: str = Field(title="Transaction Type")
-    payment_method: str = Field(title="Payment Method")
     notes: Optional[str] = Field(None, title="Transaction Notes")

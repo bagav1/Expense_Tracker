@@ -16,7 +16,6 @@ class TestDBCategory:
             amount=100,
             transaction_type="expense",
             description="Test Transaction",
-            payment_method="cash",
         )
 
         session.add_all([account, transaction])
@@ -38,7 +37,6 @@ class TestDBCategory:
             amount=100,
             transaction_type="expense",
             description="Test Transaction",
-            payment_method="cash",
         )
 
         session.add_all([user, account, transaction])
