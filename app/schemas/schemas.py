@@ -88,5 +88,6 @@ class TransactionUpdate(BaseModel):
     category_id: str = Field(title="Category Transaction")
     date: str | datetime = Field(title="Transaction Date")
     description: str = Field(title="Transaction Description")
+    amount: float = Field(title="Transaction Amount")
     transaction_type: str = Field(title="Transaction Type")
     notes: Optional[str] = Field(None, title="Transaction Notes")

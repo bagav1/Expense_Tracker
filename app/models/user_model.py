@@ -70,7 +70,17 @@ class User(BaseClass):
 
     @classmethod
     async def get_all(cls, db: AsyncSession, skip: int = 0, limit: int = 100):
-        return (await db.execute(select(cls).offset(skip).limit(limit))).scalars().all()
+        try:
+            transaction = (
+                (await db.execute(select(cls).offset(skip).limit(limit)))
+                .scalars()
+                .all()
+            )
+            if not transaction:
+                return None
+        except NoResultFound:
+            return None
+        return transaction
 
     @classmethod
     async def update(cls, db: AsyncSession, user_id: str, **kwargs):
